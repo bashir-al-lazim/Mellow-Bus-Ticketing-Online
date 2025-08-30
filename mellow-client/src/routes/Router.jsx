@@ -1,7 +1,5 @@
-import {
-  createBrowserRouter,
-} from "react-router-dom";
-import Root from "../layouts/Root";
+import { createBrowserRouter } from "react-router-dom";
+import Root from "../layout/Root";
 
 
 
