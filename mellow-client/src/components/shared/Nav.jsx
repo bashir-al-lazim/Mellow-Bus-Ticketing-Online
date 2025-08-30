@@ -37,7 +37,7 @@ const Nav = () => {
                         </ul>
                     </div>
                     <div className="flex items-center">
-                        <h2 className="text-2xl font-extrabold text-white text-shadow-lg text-shadow-amber-500 bg-transparent">Mell<span className="text-yellow-400 text-3xl font-bold">OW</span></h2>
+                        <h2 className="text-2xl font-extrabold text-white text-shadow-lg text-shadow-amber-500">Mell<span className="text-yellow-400 text-3xl font-bold">OW</span></h2>
                     </div>
                 </div>
                 <div className="hidden lg:flex min-w-max navbar-center">

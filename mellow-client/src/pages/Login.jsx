@@ -45,7 +45,7 @@ const Login = () => {
                 <div className="m-auto py-12">
                     <div className="rounded-2xl border -mx-6 sm:-mx-10 p-8 sm:p-10">
                         <h3 className="text-2xl font-semibold text-gray-700 text-center"><span className="text-yellow-500">Login</span> to Experience the Best of <br /> <p className="text-2xl font-bold">Mell<span className="text-yellow-500 text-3xl font-normal">ow!</span></p></h3>
-                        <div className="mt-12 flex flex-wrap sm:grid gap-6 grid-cols-2">
+                        <div className="mt-12 gap-6">
                             <button onClick={handleGoogleLogin}
                                 className="w-full h-11 rounded-full border bg-base-100 px-6 transition duration-500 hover:scale-105 active:bg-yellow-400 hover:shadow-md hover:shadow-yellow-400"
                             >
@@ -55,6 +55,11 @@ const Login = () => {
                                     >With Google</span>
                                 </div>
                             </button>
+                        </div>
+                        <div className="w-full flex items-center pt-8">
+                            <hr className="border-gray-500 w-full"/>
+                            <p className="px-2 text-sm font-bold">OR</p>
+                            <hr className="border-gray-500 w-full"/>
                         </div>
 
                         <form onSubmit={handleLogin} className="mt-10 space-y-8 ">
