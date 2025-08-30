@@ -56,13 +56,13 @@ const Signup = () => {
     }
 
     return (
-        <div className="min-h-[calc(100vh-20.62rem)] m-auto px-12 sm:px-0 mx-auto bg-base-200 pt-14">
+        <div className="min-h-[calc(100vh-20.62rem)] text-wrap m-auto px-12 sm:px-0 mx-auto bg-base-200 pt-14">
             <div className="mx-auto h-full sm:w-max">
-                <div className="m-auto py-12">
-                    <div className="rounded-2xl border -mx-6 sm:-mx-10 p-8 sm:p-10">
-                        <h3 className="text-2xl font-semibold text-gray-700 text-center"><span className="text-yellow-500">Join Us</span> to Experience a Exciting Journey with <span className="text-2xl font-bold">Mell<span className="text-yellow-500 text-3xl font-normal">ow</span></span></h3>
+                <div className="py-12">
+                    <div className="w-[80%] mx-auto rounded-2xl border p-8 sm:w-full">
+                        <h3 className="text-2xl font-semibold text-gray-700 text-center"><span className="text-yellow-500">Join Us</span> to Experience an Exciting Journey <br /> with <span className="text-2xl font-bold">Mell<span className="text-yellow-500 text-3xl font-normal">ow</span></span></h3>
 
-                        <form onSubmit={handleSignUp} className="mt-10 space-y-8 ">
+                        <form onSubmit={handleSignUp} className="mt-10 space-y-8">
                             <div>
                                 <div className="relative before:absolute before:bottom-0 before:h-0.5 before:left-0 before:origin-right focus-within:before:origin-left before:right-0 before:scale-x-0 before:m-auto before:bg-yellow-400 focus-within:before:!scale-x-100 focus-within:invalid:before:bg-red-400 before:transition before:duration-500">
                                     <input type="text" placeholder="Your name" name='name' className="w-full bg-transparent pb-3  border-b border-gray-500 outline-none invalid:border-red-400 transition" required/>
@@ -105,20 +105,19 @@ const Signup = () => {
                             </div>
 
 
-
                             <div>
                                 <button type="submit"
                                     className="w-full rounded-full bg-yellow-400 h-11 flex items-center justify-center px-6 py-3 hover:bg-yellow-600 active:bg-yellow-700 transition-colors duration-500"
                                 >
                                     <span className="text-base font-semibold text-white">Sign Up</span>
                                 </button>
-                                <div className="-ml-3 w-max p-3 hover:text-yellow-400">
+                                <div className="-ml-3 w-full p-3 hover:text-yellow-400">
                                     <Link to='/login' className="text-sm tracking-wide font-medium hover:underline transition-all duration-300">Already have an account? Login Here!</Link>
                                 </div>
                             </div>
 
-                            <div className="mt-32 space-y-4 text-center sm:-mb-8 w-[80%] mx-auto">
-                                <p className="text-xs">
+                            <div className="text-center sm:-mb-8 md:w-[80%] w-full mx-auto">
+                                <p className="text-xs mb-4">
                                     By proceeding, you agree to our <Link className="underline hover:text-yellow-400">Terms of Use</Link> and
                                     confirm you have read our <Link className="underline hover:text-yellow-400">Privacy and Cookie Statement</Link>.
                                 </p>

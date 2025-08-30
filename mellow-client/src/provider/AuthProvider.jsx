@@ -1,9 +1,9 @@
 import { createContext, useEffect, useState } from "react";
 import PropTypes from 'prop-types';
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
-import auth from "../firebase/firebase.config";
 import toast from "react-hot-toast";
 import useAxiosPublic from "../hooks/useAxiosPublic";
+import auth from "../firebase/firebase.config";
 
 
 export const AuthContext = createContext(null)

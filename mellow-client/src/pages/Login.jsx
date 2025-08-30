@@ -44,7 +44,7 @@ const Login = () => {
             <div className="mx-auto h-full sm:w-max">
                 <div className="m-auto py-12">
                     <div className="rounded-2xl border -mx-6 sm:-mx-10 p-8 sm:p-10">
-                        <h3 className="text-2xl font-semibold text-gray-700 text-center"><span className="text-yellow-500">Login</span> to Experience the Best of <p className="text-2xl font-bold">Mell<span className="text-yellow-500 text-3xl font-normal">ow!</span></p></h3>
+                        <h3 className="text-2xl font-semibold text-gray-700 text-center"><span className="text-yellow-500">Login</span> to Experience the Best of <br /> <p className="text-2xl font-bold">Mell<span className="text-yellow-500 text-3xl font-normal">ow!</span></p></h3>
                         <div className="mt-12 flex flex-wrap sm:grid gap-6 grid-cols-2">
                             <button onClick={handleGoogleLogin}
                                 className="w-full h-11 rounded-full border bg-base-100 px-6 transition duration-500 hover:scale-105 active:bg-yellow-400 hover:shadow-md hover:shadow-yellow-400"

@@ -44,7 +44,6 @@ const Nav = () => {
                 <div className="hidden lg:flex min-w-max navbar-center">
                     <ul className="font-medium gap-4">
                         <NavLink to="/" className={pages}>Home</NavLink>
-                        <NavLink to='/products' className={pages}>Products</NavLink>
                     </ul>
                 </div>
                 <div id="nav-btn" className="flex gap-4 items-center navbar-end">
