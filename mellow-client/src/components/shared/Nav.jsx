@@ -33,12 +33,11 @@ const Nav = () => {
                         </div>
                         <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] -left-2 p-2 bg-transparent w-max gap-2 font-medium transition-all">
                             <NavLink to='/' className={({ isActive }) => isActive ? "px-5 py-2 bg-base-100 border-[0.1rem] border-yellow-400 rounded-lg" : "px-5 py-2 bg-base-100 border-[0.1rem] border-b-[#898888] hover:text-[#898888] border-transparent"}>Home</NavLink>
-                            <NavLink to='/products' className={({ isActive }) => isActive ? "px-5 py-2 bg-base-100 border-[0.1rem] border-yellow-400 rounded-lg" : "px-5 py-2 bg-base-100 border-[0.1rem] border-b-[#898888] hover:text-[#898888] border-transparent"}>Products</NavLink>
+                            <NavLink to='/trip' className={({ isActive }) => isActive ? "px-5 py-2 bg-base-100 border-[0.1rem] border-yellow-400 rounded-lg" : "px-5 py-2 bg-base-100 border-[0.1rem] border-b-[#898888] hover:text-[#898888] border-transparent"}>Trip</NavLink>
                         </ul>
                     </div>
                     <div className="flex items-center">
-                        <img src="https://i.ibb.co/NrQ9n1Y/Black-logo-removebg-preview.png" alt="logo" className="h-7" />
-                        <h2 className="text-2xl font-bold text-white">Nex<span className="text-yellow-400 text-3xl font-normal">Tech</span></h2>
+                        <h2 className="text-2xl font-extrabold text-white text-shadow-lg text-shadow-amber-500 bg-transparent">Mell<span className="text-yellow-400 text-3xl font-bold">OW</span></h2>
                     </div>
                 </div>
                 <div className="hidden lg:flex min-w-max navbar-center">
