@@ -13,7 +13,7 @@ const Footer = () => {
                 <div className={`flex flex-col sm:flex-row justify-between items-center sm:items-start text-center`}>
                     
                     <div className="flex items-center w-full sm:w-fit">
-                        <h2 className="text-2xl text-white font-extrabold text-shadow-lg text-shadow-amber-500">Mell<span className="text-yellow-400 text-3xl font-bold">OW</span></h2>
+                        <h2 className="text-2xl text-white font-extrabold text-shadow-lg text-shadow-amber-500">mell<span className="text-yellow-400 text-3xl font-bold">OW</span></h2>
                     </div>
 
                     <div className="flex flex-col text-right sm:text-center -mx-4 w-full sm:w-fit">
@@ -40,7 +40,7 @@ const Footer = () => {
                         </Link>
 
                     </div>
-                    <p className="text-sm mt-5 sm:mt-0 text-center">© Copyright 2025 Mellow. All Rights Reserved.</p>
+                    <p className="text-sm mt-5 sm:mt-0 text-center">© Copyright 2025 mellOW. All Rights Reserved.</p>
                 </div>
             </div>
         </footer>

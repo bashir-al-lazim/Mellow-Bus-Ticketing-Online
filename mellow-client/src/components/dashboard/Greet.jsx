@@ -8,13 +8,15 @@ const Greet = () => {
     const { user } = useContext(AuthContext)
     const axiosSecure = useAxiosSecure()
 
-    const { data = {} } = useQuery({
-        queryKey: ['users', user.email],
-        queryFn: async () => {
-            const res = await axiosSecure.get(`/users/${user.email}`)
-            return res.data
-        }
-    })
+    // const { data = {} } = useQuery({
+    //     queryKey: ['users', user.email],
+    //     queryFn: async () => {
+    //         const res = await axiosSecure.get(`/users/${user.email}`)
+    //         return res.data
+    //     }
+    // })
+
+    const data = { role:"admin", name:"bashir"}
 
     return (
         <div className='uppercase text-center font-bold space-y-4 md:w-[90%] mx-auto'>

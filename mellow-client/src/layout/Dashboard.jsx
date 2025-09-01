@@ -12,13 +12,15 @@ const Dashboard = () => {
     const { user } = useContext(AuthContext)
     const axiosSecure = useAxiosSecure()
 
-    const { data = {} } = useQuery({
-        queryKey: ['users', user.email],
-        queryFn: async () => {
-            const res = await axiosSecure.get(`/users/${user.email}`)
-            return res.data
-        }
-    })
+    // const { data = {} } = useQuery({
+    //     queryKey: ['users', user.email],
+    //     queryFn: async () => {
+    //         const res = await axiosSecure.get(`/users/${user.email}`)
+    //         return res.data
+    //     }
+    // })
+
+    const data = { role:"admin", name:"bashir"}
 
     return (
         <div className="flex flex-col md:flex-row">
