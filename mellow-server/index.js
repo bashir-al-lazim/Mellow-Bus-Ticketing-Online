@@ -34,7 +34,52 @@ pool.getConnection((err, connection) => {
 });
 
 
-//queries from here
+//---------------------------api
+
+app.post('/users', async (req, res) => {
+    const { name, email } = req.body;
+    try {
+        await pool.promise().query(
+            'insert into accounts (email, full_name) values (?, ?)',
+            [email, name]
+        );
+        await pool.promise().query(
+            'insert into users (user_email) values (?)',
+            [email]
+        );
+        res.send({ message: 'User inserted successfully', user_info: {name, email} });
+    } catch (err) {
+        res.send({ message: 'database error' });
+    }
+});
+
+app.get('/accounts/:email', async (req, res) => {
+    const { email } = req.params;
+    try {
+        const [userRows] = await pool.promise().query('select * from accounts where email = ?', [email]);
+        if (userRows.length === 0) {
+            return res.send({ message: 'user not found' });
+        }
+        const [adminRows] = await pool.promise().query('select * from admins where admin_email = ?', [email]);
+        const isAdmin = adminRows.length > 0;
+        const user = userRows[0];
+
+        if (!isAdmin) {
+            const [userDetails] = await pool.promise().query('select * from users where user_email = ?', [email]);
+            user.loyalty_points = userDetails[0]?.loyalty_points || 0;
+            user.auto_booking_enabled = userDetails[0]?.auto_booking_enabled || 0;
+            user.total_seats_booked = userDetails[0]?.total_seats_booked || 0;
+        }
+
+        user.isAdmin = isAdmin;
+        res.send(user);
+    } catch (err) {
+        console.error('database error:', err);
+        res.send({ message: 'error' });
+    }
+});
+
+
 app.get('/trips', async (req, res) => {
     const { status, from, to, date, busType } = req.query;
     try {
@@ -118,8 +163,6 @@ app.get('/trips', async (req, res) => {
         res.send({ message: 'Error retrieving trips' });
     }
 });
-
-
 
 
 app.get('/trips/:trip_id', async (req, res) => {

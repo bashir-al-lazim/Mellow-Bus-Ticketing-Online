@@ -35,40 +35,14 @@ const AuthProvider = ({ children }) => {
     }
 
     useEffect(() => {
-        const unSubscribe = onAuthStateChanged(auth, currentUser => {
-            const loggedUser = { email: currentUser?.email || user?.email }
-            setUser(currentUser)
-            
-            if (currentUser) {
-                axiosPublic.post('/users', {name: currentUser?.displayName, email: currentUser?.email})
-                .then(res => {
-                    console.log(res.data)
-                    
-                })
-            }
+        const unSubscribe = onAuthStateChanged(auth, async currentUser => {
+            setUser(currentUser);
+            setLoading(false);
+        });
 
-            if (currentUser) {
-                axiosPublic.post('/jwt', loggedUser)
-                    .then(res => {
-                        if (res.data.token) {
-                            localStorage.setItem('accessToken', res.data.token)
-                            return toast.success('Token created successfully!')
-                        }
-                        toast.error('Error! Could not create token')
-                    })
-                    .catch(() => toast.error('Error! Could not create token'))
-            }
-            else {
+        return () => unSubscribe();
+    }, [axiosPublic]);
 
-                localStorage.removeItem('accessToken')
-                toast.success('Token removed successfully!')
-            }
-            setLoading(false)
-        })
-
-        return () => unSubscribe()
-
-    }, [axiosPublic])
 
 
     useEffect(() => {
