@@ -26,11 +26,11 @@ const Banner = () => {
                                 From planning to booking, mellOW brings you a simple, reliable, and modern way to travel — connecting you with comfort, convenience, and confidence.
                             </p>
                             <a
-                                href="/"
+                                href="/trips"
                                 aria-label=""
-                                className="font-semibold tracking-wider text-teal-accent-400 hover:text-teal-accent-700 flex items-center hover:text-yellow-400 gap-2 hover:gap-4 transition-all duration-500 text-white"
+                                className="text-3xl font-semibold tracking-wider text-teal-accent-400 hover:text-teal-accent-700 flex items-center hover:text-yellow-400 gap-2 hover:gap-4 transition-all duration-500 text-white"
                             >
-                                Book Now <span className="text-3xl font-bold pb-1">→</span>
+                                Book Now <span className="text-5xl font-bold pb-1">→</span>
                             </a>
                         </div>
                         <div className="w-full flex xl:px-8 xl:w-5/12">

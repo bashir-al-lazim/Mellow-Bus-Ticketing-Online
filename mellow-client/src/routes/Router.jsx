@@ -6,6 +6,8 @@ import Greet from "../components/dashboard/Greet";
 import Dashboard from "../layout/Dashboard";
 import PrivateRoute from "./PrivateRoute";
 import Home from "../pages/Home";
+import Trips from "../pages/Trips";
+import Book from "../pages/Book";
 
 
 
@@ -25,6 +27,14 @@ export const router = createBrowserRouter([
       {
         path: '/signup',
         element: <Signup />,
+      },
+      {
+        path: '/trips',
+        element: <Trips />,
+      },
+      {
+        path: '/trips/:id',
+        element: <Book />,
       },
     ]
   },

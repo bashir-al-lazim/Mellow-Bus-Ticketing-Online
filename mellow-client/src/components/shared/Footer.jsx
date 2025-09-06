@@ -18,7 +18,7 @@ const Footer = () => {
 
                     <div className="flex flex-col text-right sm:text-center -mx-4 w-full sm:w-fit">
                         <Link to='/' className="my-2 text-sm hover:text-yellow-400 hover:underline"> Home </Link>
-                        <Link to='/products' className="my-2 text-sm hover:text-yellow-400 hover:underline"> Trips </Link>
+                        <Link to='/trips' className="my-2 text-sm hover:text-yellow-400 hover:underline"> Trips </Link>
                     </div>
 
                     <p className='text-sm mt-4 text-left w-full sm:w-fit'><span className='text-yellow-400 underline font-semibold'>Contact:</span> contact@mellow.com <br /> <br /> <span className='text-yellow-400 underline font-semibold'>Address:</span> Holy Family, 1, Eskaton road, <br /> Dhaka-1000, Dhaka, Bangladesh</p>

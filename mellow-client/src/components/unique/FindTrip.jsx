@@ -139,12 +139,12 @@ export default function FindTrip() {
 
 
     return (
-        <div className="lg:py-32 md:py-16 sm:py-8">
-            <div className="text-center lg:pb-20 md:pb-14 sm:pb-4">
-                <h1 className="text-7xl font-bold">Find your <span className="text-yellow-400">Trip</span></h1>
+        <div className="lg:py-32 md:py-16 py-12 px-6 lg:px-12">
+            <div className="text-center lg:pb-20 md:pb-14 pb-4">
+                <h1 className="text-6xl font-bold">Find your <span className="text-yellow-400">Trip</span></h1>
             </div>
             <div
-                className={`w-full max-w-6xl mx-auto px-4 md:p-6 rounded-2xl flex flex-col items-end md:flex-row items-center gap-4`}
+                className={`w-full max-w-6xl mx-auto px-4 md:p-6 rounded-2xl flex flex-col items-end md:flex-row gap-4`}
                 style={{ backgroundColor: "transparent" }}
             >
                 {/* From */}
