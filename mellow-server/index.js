@@ -1,0 +1,192 @@
+const express = require('express');
+const cors = require('cors')
+const sql = require('mysql2')
+// const bodyParser= require('body-parser')
+
+//initialization
+const app = express()
+const port = 5000
+
+//middleware
+app.use(cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+}))
+app.use(express.json())
+
+//DB connect
+const pool = sql.createPool({
+    host: "localhost",
+    user: "root",
+    password: "",
+    database: "bus_ticketing",
+    multipleStatements: true
+});
+
+pool.getConnection((err, connection) => {
+    if (err) {
+        console.error('Error connecting to the database:', err);
+        process.exit(1);
+    } else {
+        console.log('Database connected successfully');
+        connection.release();
+    }
+});
+
+
+//queries from here
+app.get('/trips', async (req, res) => {
+    const { status, from, to, date, busType } = req.query;
+    try {
+        let query = `
+            SELECT trip.*, route.origin_name, route.destination_name, route.estimated_arrival_hours
+            FROM trip
+            INNER JOIN route ON trip.route_id = route.route_id
+        `;
+        let params = [];
+
+        if (status) {
+            query += ' WHERE trip.status = ?';
+            params.push(status);
+        }
+
+        if (from || to) {
+            query += status ? ' AND' : ' WHERE';
+            if (from) {
+                query += ' route.origin_name = ?';
+                params.push(from);
+            }
+            if (to) {
+                query += from ? ' AND' : '';
+                query += ' route.destination_name = ?';
+                params.push(to);
+            }
+        }
+
+        if (date) {
+            query += (status || from || to) ? ' AND' : ' WHERE';
+            query += ' DATE(trip.depart_at) = ?';
+            params.push(date);
+        }
+
+        if (busType) {
+            query += (status || from || to || date) ? ' AND' : ' WHERE';
+            query += ' trip.template_name = ?';
+            params.push(busType);
+        }
+
+        console.log('Query:', query);
+        console.log('Params:', params);
+
+        const [trips] = await pool.promise().query(query, params);
+
+        const tripsWithDetails = await Promise.all(trips.map(async (trip) => {
+            const [routeStopsRows] = await pool.promise().query(
+                'SELECT stop FROM route_stops WHERE route_id = ? ORDER BY sequence',
+                [trip.route_id]
+            );
+            const routeStops = routeStopsRows.map(row => row.stop).join('-');
+
+            const [tripSeatsRows] = await pool.promise().query(
+                'SELECT seat_template_name FROM trip_seats WHERE trip_id = ?',
+                [trip.trip_id]
+            );
+            const seatTemplateName = tripSeatsRows.length > 0 ? tripSeatsRows[0].seat_template_name : '';
+
+            return {
+                trip_id: trip.trip_id,
+                price_per_seat: trip.price_per_seat,
+                depart_at: trip.depart_at,
+                arrive_at: trip.arrive_at,
+                bus_license_number: trip.bus_license_number,
+                status: trip.status,
+                created_at: trip.created_at,
+                updated_at: trip.updated_at,
+                route_id: trip.route_id,
+                origin_name: trip.origin_name,
+                destination_name: trip.destination_name,
+                distance_km: trip.distance_km,
+                estimated_arrival_hours: trip.estimated_arrival_hours,
+                routeStops: routeStops,
+                template_name: seatTemplateName
+            };
+        }));
+
+        res.send(tripsWithDetails);
+    } catch (err) {
+        console.error('Database error:', err);
+        res.send({ message: 'Error retrieving trips' });
+    }
+});
+
+
+
+
+app.get('/trips/:trip_id', async (req, res) => {
+    const { trip_id } = req.params;
+    try {
+        const [tripRows] = await pool.promise().query('select * from trip where trip_id = ?', [trip_id]);
+        if (tripRows.length === 0) {
+            return res.send({ message: 'trip not found' });
+        }
+        const trip = tripRows[0];
+
+        const [routeRows] = await pool.promise().query('select origin_name, destination_name, distance_km, estimated_arrival_hours from route where route_id = ?', [trip.route_id]);
+        trip.routeDetails = routeRows.length > 0 ? routeRows[0] : {};
+
+        const [tripSeatsRows] = await pool.promise().query('select trip_seat_id, status, seat_template_name from trip_seats where trip_id = ?', [trip_id]);
+        trip.tripSeats = tripSeatsRows.map(seat => ({
+            trip_seat_id: seat.trip_seat_id,
+            status: seat.status
+        }));
+
+        if (tripSeatsRows.length > 0) {
+            const seatTemplateName = tripSeatsRows[0].seat_template_name;
+            const [seatTemplateRows] = await pool.promise().query('select seat_codes, total_seats, seats_per_row from seat_templates where template_name = ?', [seatTemplateName]);
+            trip.seatTemplateDetails = seatTemplateRows.length > 0 ? seatTemplateRows[0] : {};
+        }
+
+        const [routeStopsRows] = await pool.promise().query('select stop from route_stops where route_id = ? order by sequence', [trip.route_id]);
+
+        trip.routeStops = routeStopsRows.map(row => row.stop).join('-');
+
+        res.send({
+            trip_id: trip.trip_id,
+            price_per_seat: trip.price_per_seat,
+            depart_at: trip.depart_at,
+            arrive_at: trip.arrive_at,
+            bus_license_number: trip.bus_license_number,
+            status: trip.status,
+            created_at: trip.created_at,
+            updated_at: trip.updated_at,
+            template_name: tripSeatsRows[0].seat_template_name,
+            route_id: trip.route_id,
+            origin_name: trip.routeDetails.origin_name,
+            destination_name: trip.routeDetails.destination_name,
+            distance_km: trip.routeDetails.distance_km,
+            estimated_arrival_hours: trip.routeDetails.estimated_arrival_hours,
+            seatTemplateDetails: trip.seatTemplateDetails,
+            tripSeats: trip.tripSeats,
+            routeStops: trip.routeStops 
+        });
+    } catch (err) {
+        console.error('database error:', err);
+        res.send({ message: 'error' });
+    }
+});
+
+
+
+
+
+
+
+//-------------------------
+
+app.get('/', async (req, res) => {
+    res.send('Mellow Server Running')
+})
+
+app.listen(port, () => {
+    console.log('Mellow server is running on port: ', port)
+})

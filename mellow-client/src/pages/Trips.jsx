@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import DatePicker from "react-datepicker";
 import { format } from "date-fns";
@@ -13,226 +13,49 @@ export default function Trips() {
     const { theme } = useContext(AuthContext);
     const axiosPublic = useAxiosPublic();
     const location = useLocation();
-    const navigate = useNavigate();
 
-    // --- Get initial params from URL
+    const cities = ["Dhaka", "Dinajpur"];
+
     const params = new URLSearchParams(location.search);
     const [from, setFrom] = useState(params.get("from") || "");
     const [to, setTo] = useState(params.get("to") || "");
     const [date, setDate] = useState(params.get("date") ? new Date(params.get("date")) : null);
-    const [busType, setBusType] = useState(params.get("busType") || "");
-
-    const cities = ["Dhaka", "Dinajpur"];
-
-    // --- Query all trips (public)
-    // const { data: trips = [], isLoading, refetch } = useQuery({
-    //     queryKey: ["trips", from, to, date, busType],
-    //     queryFn: async () => {
-    //         const res = await axiosPublic.get("/trips", {
-    //             params: {
-    //                 from,
-    //                 to,
-    //                 date: date ? format(date, "yyyy-MM-dd") : undefined,
-    //                 busType,
-    //             },
-    //         });
-    //         return res.data;
-    //     },
-    //     refetchOnWindowFocus: true,
-    // });
-
-    const trips = [
-    {
-        "id": 1,
-        "busName": "Green Travels",
-        "from": "Dhaka",
-        "to": "Dinajpur",
-        "departureTime": "08:00",
-        "departureDate": "2025-09-02",
-        "arrivalTime": "14:00",
-        "arrivalDate": "2025-09-02",
-        "duration": "6 hours",
-        "busType": "AC",
-        "price": 1500,
-        "oldPrice": 1800,
-        "seats": 10
-    },
-    {
-        "id": 2,
-        "busName": "Comfort Express",
-        "from": "Dhaka",
-        "to": "Dinajpur",
-        "departureTime": "10:00",
-        "departureDate": "2025-09-03",
-        "arrivalTime": "16:00",
-        "arrivalDate": "2025-09-03",
-        "duration": "6 hours",
-        "busType": "Non-AC",
-        "price": 1200,
-        "oldPrice": 1400,
-        "seats": 8
-    },
-    {
-        "id": 3,
-        "busName": "Royal Riders",
-        "from": "Dinajpur",
-        "to": "Dhaka",
-        "departureTime": "09:00",
-        "departureDate": "2025-09-04",
-        "arrivalTime": "15:00",
-        "arrivalDate": "2025-09-04",
-        "duration": "6 hours",
-        "busType": "AC",
-        "price": 1600,
-        "oldPrice": 1900,
-        "seats": 12
-    },
-    {
-        "id": 4,
-        "busName": "Fast Lane",
-        "from": "Dhaka",
-        "to": "Dinajpur",
-        "departureTime": "07:00",
-        "departureDate": "2025-09-05",
-        "arrivalTime": "13:00",
-        "arrivalDate": "2025-09-05",
-        "duration": "6 hours",
-        "busType": "Non-AC",
-        "price": 1100,
-        "oldPrice": 1300,
-        "seats": 15
-    },
-    {
-        "id": 5,
-        "busName": "Sunset Tours",
-        "from": "Dinajpur",
-        "to": "Dhaka",
-        "departureTime": "08:30",
-        "departureDate": "2025-09-06",
-        "arrivalTime": "14:30",
-        "arrivalDate": "2025-09-06",
-        "duration": "6 hours",
-        "busType": "AC",
-        "price": 1700,
-        "oldPrice": 2000,
-        "seats": 20
-    },
-    {
-        "id": 6,
-        "busName": "Dream Bus",
-        "from": "Dhaka",
-        "to": "Dinajpur",
-        "departureTime": "06:30",
-        "departureDate": "2025-09-07",
-        "arrivalTime": "12:30",
-        "arrivalDate": "2025-09-07",
-        "duration": "6 hours",
-        "busType": "Non-AC",
-        "price": 1000,
-        "oldPrice": 1200,
-        "seats": 18
-    },
-    {
-        "id": 7,
-        "busName": "Luxury Line",
-        "from": "Dinajpur",
-        "to": "Dhaka",
-        "departureTime": "09:30",
-        "departureDate": "2025-09-08",
-        "arrivalTime": "15:30",
-        "arrivalDate": "2025-09-08",
-        "duration": "6 hours",
-        "busType": "AC",
-        "price": 1800,
-        "oldPrice": 2100,
-        "seats": 25
-    },
-    {
-        "id": 8,
-        "busName": "Swift Shuttle",
-        "from": "Dhaka",
-        "to": "Dinajpur",
-        "departureTime": "05:30",
-        "departureDate": "2025-09-02",
-        "arrivalTime": "11:30",
-        "arrivalDate": "2025-09-02",
-        "duration": "6 hours",
-        "busType": "Non-AC",
-        "price": 950,
-        "oldPrice": 1100,
-        "seats": 10
-    },
-    {
-        "id": 9,
-        "busName": "Skyline Express",
-        "from": "Dinajpur",
-        "to": "Dhaka",
-        "departureTime": "10:00",
-        "departureDate": "2025-09-03",
-        "arrivalTime": "16:00",
-        "arrivalDate": "2025-09-03",
-        "duration": "6 hours",
-        "busType": "AC",
-        "price": 1550,
-        "oldPrice": 1800,
-        "seats": 8
-    },
-    {
-        "id": 10,
-        "busName": "City Bus",
-        "from": "Dhaka",
-        "to": "Dinajpur",
-        "departureTime": "12:00",
-        "departureDate": "2025-09-04",
-        "arrivalTime": "18:00",
-        "arrivalDate": "2025-09-04",
-        "duration": "6 hours",
-        "busType": "Non-AC",
-        "price": 1050,
-        "oldPrice": 1250,
-        "seats": 12
-    }
-]
+    const [template_name, setTemplateName] = useState(params.get("template_name") || "");
 
 
-
-    // --- Filter client-side
-    const filteredTrips = trips.filter((t) => {
-        if (from && t.from !== from) return false;
-        if (to && t.to !== to) return false;
-        if (date) {
-            const tripDate = new Date(t.departureDate); // Ensure this is a valid Date
-            const selected = new Date(date); // Ensure the selected date is valid
-            if (isNaN(tripDate.getTime()) || isNaN(selected.getTime())) {
-                console.error("Invalid date format");
-                return false; // Prevent further comparison if date is invalid
-            }
-            const tripDateFormatted = format(tripDate, "yyyy-MM-dd");
-            const selectedFormatted = format(selected, "yyyy-MM-dd");
-            if (tripDateFormatted !== selectedFormatted) return false;
-        }
-        if (busType && t.busType !== busType) return false;
-        return true;
+    const { data: trips = [], isLoading, refetch } = useQuery({
+        queryKey: ["trips", from, to, date, template_name],
+        queryFn: async () => {
+            console.log('Fetching trips with:', { from, to, date, template_name });
+            const res = await axiosPublic.get("/trips", {
+                params: {
+                    from,
+                    to,
+                    date: date ? format(date, "yyyy-MM-dd") : undefined,
+                    template_name,
+                },
+            });
+            return res.data;
+        },
+        refetchOnWindowFocus: true,
     });
 
-    // --- Handle Filters change (trigger refetch when any filter is updated)
-    // useEffect(() => {
-        // refetch(); // Refetch trips data based on the updated filters
-    // }, [from, to, date, busType, refetch]);
+    useEffect(() => {
+        refetch();
+    }, [from, to, date, template_name, refetch]);
 
-    // if (isLoading) {
-    //     return (
-    //         <div className="hero min-h-screen">
-    //             <span className="loading loading-bars loading-lg"></span>
-    //         </div>
-    //     );
-    // }
+    if (isLoading) {
+        return (
+            <div className="hero min-h-screen">
+                <span className="loading loading-bars loading-lg"></span>
+            </div>
+        );
+    }
 
     const textColor = theme === "dark" ? "text-white" : "text-black";
     const borderColor = theme === "dark" ? "border-gray-700" : "border-gray-300";
     const bgInput = theme === "dark" ? "bg-gray-800" : "bg-white";
 
-    // --- Functions for location swapping and form resetting
     const otherCity = (city) => cities.find((c) => c !== city) || "";
 
     const handleFromChange = (val) => {
@@ -265,13 +88,30 @@ export default function Trips() {
         setFrom("");
         setTo("");
         setDate(null);
-        setBusType("");
+        setTemplateName("");
         toast.success("Form reset successfully.");
     };
 
+    const filteredTrips = Array.isArray(trips) ? trips.filter((t) => {
+        if (from && t.origin_name !== from) return false;
+        if (to && t.destination_name !== to) return false;
+        if (date) {
+            const tripDate = new Date(t.depart_at);
+            const selected = new Date(date);
+            if (isNaN(tripDate.getTime()) || isNaN(selected.getTime())) {
+                console.error("Invalid date format");
+                return false;
+            }
+            const tripDateFormatted = format(tripDate, "yyyy-MM-dd");
+            const selectedFormatted = format(selected, "yyyy-MM-dd");
+            if (tripDateFormatted !== selectedFormatted) return false;
+        }
+        if (template_name && t.template_name !== template_name) return false;
+        return true;
+    }) : [];
+
     return (
         <div className="lg:py-20 md:py-12 py-8 px-4 lg:px-12">
-            {/* Search Bar */}
             <div className={`w-full max-w-6xl mx-auto px-4 md:p-6 rounded-2xl flex flex-col items-end md:flex-row gap-4`}>
                 {/* From */}
                 <div className="flex flex-col flex-1 w-full">
@@ -345,13 +185,13 @@ export default function Trips() {
                 <div className="flex flex-col flex-1 w-full">
                     <label className={`text-sm ${textColor}`}>Bus Type</label>
                     <select
-                        value={busType}
-                        onChange={(e) => setBusType(e.target.value)}
+                        value={template_name}
+                        onChange={(e) => setTemplateName(e.target.value)}
                         className={`mt-1 p-3 border ${borderColor} rounded-lg w-full ${bgInput} ${textColor}`}
                     >
                         <option value="">Select</option>
                         <option value="AC">AC</option>
-                        <option value="Non-AC">Non-AC</option>
+                        <option value="NON-AC">NON-AC</option>
                     </select>
                 </div>
 
@@ -367,11 +207,10 @@ export default function Trips() {
                 </div>
             </div>
 
-            {/* Trip Results */}
             <div className="mt-8 flex flex-col gap-6">
                 {filteredTrips.length > 0 ? (
                     filteredTrips.map((trip) => (
-                        <TripCard key={trip.id} trip={trip} theme={theme} />
+                        <TripCard key={trip.trip_id} trip={trip} theme={theme} />
                     ))
                 ) : (
                     <p className="text-center text-gray-500 dark:text-gray-400">
