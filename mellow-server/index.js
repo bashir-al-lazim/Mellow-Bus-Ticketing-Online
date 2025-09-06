@@ -145,6 +145,60 @@ app.delete("/promo-codes", async (req, res) => {
 });
 
 
+app.patch('/promo-codes', async (req, res) => {
+    const { code } = req.query;
+    const {
+        description,
+        type,
+        discount_value,
+        min_total_seats,
+        per_user_limit,
+        global_max_uses,
+        start_at,
+        expires_at,
+        combinable,
+        active
+    } = req.body;
+
+    if (!code) return res.json({ error: 'Promo code is required' });
+
+    try {
+        const [result] = await pool.promise().query(
+            `UPDATE promo_codes SET 
+                description = ?, 
+                type = ?, 
+                discount_value = ?, 
+                min_total_seats = ?, 
+                per_user_limit = ?, 
+                global_max_uses = ?, 
+                start_at = ?, 
+                expires_at = ?, 
+                combinable = ?, 
+                active = ? 
+             WHERE code = ?`,
+            [
+                description,
+                type,
+                discount_value,
+                min_total_seats,
+                per_user_limit,
+                global_max_uses,
+                start_at,
+                expires_at,
+                combinable,
+                active,
+                code
+            ]
+        );
+
+        res.json({ modifiedCount: result.affectedRows });
+    } catch (err) {
+        console.error(err);
+        res.json({ error: 'Database error' });
+    }
+});
+
+
 app.get('/trips', async (req, res) => {
     const { status, from, to, date, busType } = req.query;
     try {

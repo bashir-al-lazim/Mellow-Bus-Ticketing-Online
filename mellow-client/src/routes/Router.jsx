@@ -10,6 +10,7 @@ import Trips from "../pages/Trips";
 import Book from "../pages/Book";
 import Profile from "../components/dashboard/Profile";
 import ManagePromo from "../components/dashboard/ManagePromo";
+import UpdatePromo from "../components/dashboard/UpdatePromo";
 
 
 
@@ -55,6 +56,10 @@ export const router = createBrowserRouter([
       {
         path: 'manage-promo',
         element: <ManagePromo />
+      },
+      {
+        path: 'manage-promo/update-promo/:code',
+        element: <UpdatePromo />
       },
 
     ]

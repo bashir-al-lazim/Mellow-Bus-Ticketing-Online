@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const ManagePromo = () => {
     const axiosSecure = useAxiosSecure();
-    const navigate = useNavigate();
+
 
     const { data: promoCodes = [], refetch } = useQuery({
         queryKey: ["promoCodes"],
@@ -73,16 +73,14 @@ const ManagePromo = () => {
                         </p>
 
                         <div className="flex gap-3 pt-2">
-                            {/* Update Button */}
                             <Link
-                                to={`/promo-codes/update/${promo.code}`}
+                                to={`update-promo/${promo.code}`}
                                 className="relative inline-flex items-center justify-center px-5 py-2 overflow-hidden font-medium bg-yellow-400 text-white hover:text-yellow-400 rounded-lg group border-yellow-400 border-[0.1rem]"
                             >
                                 <span className="absolute w-0 h-0 transition-all duration-500 ease-out bg-base-100 rounded-full group-hover:w-56 group-hover:h-56"></span>
                                 <span className="relative">Update</span>
                             </Link>
 
-                            {/* Delete Button */}
                             <button
                                 onClick={() => handleDelete(promo.code)}
                                 className="relative inline-flex items-center justify-center px-5 py-2 overflow-hidden font-medium bg-red-500 text-white hover:text-red-500 rounded-lg group border-red-500 border-[0.1rem]"

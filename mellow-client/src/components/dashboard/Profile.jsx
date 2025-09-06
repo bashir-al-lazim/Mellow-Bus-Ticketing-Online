@@ -79,7 +79,6 @@ const Profile = () => {
             </div>
 
             <div className="px-10 pt-5 flex gap-6">
-                {/* Top-Up */}
                 {
                     <div className="flex space-y-2 flex-col">
                         <input
@@ -88,7 +87,7 @@ const Profile = () => {
                             className="input input-bordered w-full"
                             value={topUpAmount}
                             onChange={e => setTopUpAmount(e.target.value)}
-                            min="1" // ✅ prevents typing negatives in UI
+                            min="1" 
                         />
                         <button
                             onClick={handleTopUp}
@@ -100,8 +99,6 @@ const Profile = () => {
                         </button>
                     </div>
                 }
-
-                {/* Cash-Out */}
                 <div className="flex flex-col space-y-2">
                     <input
                         type="number"
@@ -109,7 +106,7 @@ const Profile = () => {
                         className="input input-bordered"
                         value={cashOutAmount}
                         onChange={e => setCashOutAmount(e.target.value)}
-                        min="1" // ✅ prevents typing negatives in UI
+                        min="1"
                     />
                     <button
                         onClick={handleCashOut}
