@@ -337,6 +337,34 @@ app.get('/trips/:trip_id', async (req, res) => {
     }
 });
 
+app.patch('/trips', async (req, res) => {
+    const { trip_id } = req.query;
+    const { price_per_seat, depart_at, arrive_at } = req.body;
+
+    if (!trip_id) {
+        return res.json({ error: 'trip_id is required' });
+    }
+
+    try {
+        const [result] = await pool.promise().query(
+            `UPDATE trip 
+             SET price_per_seat = ?, depart_at = ?, arrive_at = ?, updated_at = CURRENT_TIMESTAMP
+             WHERE trip_id = ?`,
+            [price_per_seat, depart_at, arrive_at, trip_id]
+        );
+
+        if (result.affectedRows === 0) {
+            return res.json({ message: 'Trip not found or no changes made' });
+        }
+
+        res.json({ message: 'Trip updated successfully', modifiedRows: result.affectedRows });
+    } catch (err) {
+        console.error('Database error:', err);
+        res.json({ error: 'Failed to update trip' });
+    }
+});
+
+
 
 
 

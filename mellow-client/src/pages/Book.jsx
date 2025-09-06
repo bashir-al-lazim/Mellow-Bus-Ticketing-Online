@@ -4,7 +4,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { AuthContext } from "../provider/AuthProvider";
 import toast from "react-hot-toast";
 import useAxiosPublic from "../hooks/useAxiosPublic";
-import TripCard from "../components/unique/TripCard";
+import TripCard from "../components/shared/TripCard";
 
 export default function Book() {
     const { trip_id } = useParams();

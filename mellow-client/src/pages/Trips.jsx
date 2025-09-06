@@ -6,7 +6,7 @@ import { format } from "date-fns";
 import { AuthContext } from "../provider/AuthProvider";
 import toast from "react-hot-toast";
 import useAxiosPublic from "../hooks/useAxiosPublic";
-import TripCard from "../components/unique/TripCard";
+import TripCard from "../components/shared/TripCard";
 import "react-datepicker/dist/react-datepicker.css";
 
 export default function Trips() {
