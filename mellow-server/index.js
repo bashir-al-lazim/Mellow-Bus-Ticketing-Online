@@ -47,7 +47,7 @@ app.post('/users', async (req, res) => {
             'insert into users (user_email) values (?)',
             [email]
         );
-        res.send({ message: 'User inserted successfully', user_info: {name, email} });
+        res.send({ message: 'User inserted successfully', user_info: { name, email } });
     } catch (err) {
         res.send({ message: 'database error' });
     }
@@ -93,6 +93,54 @@ app.patch('/accounts/update-balance/:email', async (req, res) => {
     } catch (err) {
         console.error(err);
         res.status(500).send({ message: 'Database error' });
+    }
+});
+
+
+app.get('/promo-codes', async (req, res) => {
+    const { code } = req.query;
+
+    try {
+        if (code) {
+            const [rows] = await pool.promise().query(
+                `SELECT * FROM promo_codes WHERE code = ? AND active = true`,
+                [code]
+            );
+            return res.json(rows[0] || {});
+        } else {
+            const [rows] = await pool.promise().query(
+                `SELECT * FROM promo_codes WHERE active = true`
+            );
+            return res.json(rows);
+        }
+    } catch (err) {
+        console.error(err);
+        res.json({ error: 'database error' });
+    }
+});
+
+
+app.delete("/promo-codes", async (req, res) => {
+    const { code } = req.query;
+
+    if (!code) {
+        return res.json({ message: "Promo code is required" });
+    }
+
+    try {
+        const [result] = await pool.promise().query(
+            "DELETE FROM promo_codes WHERE code = ?",
+            [code]
+        );
+
+        if (result.affectedRows === 0) {
+            return res.json({ message: "Promo code not found" });
+        }
+
+        res.json({ message: "Promo code deleted successfully" });
+    } catch (err) {
+        console.error("Error deleting promo code:", err);
+        res.json({ message: "Failed to delete promo code" });
     }
 });
 
@@ -227,7 +275,7 @@ app.get('/trips/:trip_id', async (req, res) => {
             estimated_arrival_hours: trip.routeDetails.estimated_arrival_hours,
             seatTemplateDetails: trip.seatTemplateDetails,
             tripSeats: trip.tripSeats,
-            routeStops: trip.routeStops 
+            routeStops: trip.routeStops
         });
     } catch (err) {
         console.error('database error:', err);

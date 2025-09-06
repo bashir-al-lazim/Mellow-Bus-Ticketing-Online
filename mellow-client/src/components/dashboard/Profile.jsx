@@ -10,6 +10,8 @@ const Profile = () => {
     const [topUpAmount, setTopUpAmount] = useState('');
     const [cashOutAmount, setCashOutAmount] = useState('');
 
+    console.log('here I am ', user)
+
     const { refetch, data = {} } = useQuery({
         queryKey: ['users', user.email],
         queryFn: async () => {
@@ -45,14 +47,14 @@ const Profile = () => {
 
     const handleTopUp = () => {
         const amount = Number(topUpAmount);
-        if (amount <= 0) return; // ❌ prevent negative or zero
+        if (amount <= 0) return;
         handleBalanceUpdate(data.ewallet_balance + amount);
         setTopUpAmount('');
     };
 
     const handleCashOut = () => {
         const amount = Number(cashOutAmount);
-        if (amount <= 0) return; // ❌ prevent negative or zero
+        if (amount <= 0) return;
         handleBalanceUpdate(data.ewallet_balance - amount);
         setCashOutAmount('');
     };
@@ -78,24 +80,26 @@ const Profile = () => {
 
             <div className="px-10 pt-5 flex gap-6">
                 {/* Top-Up */}
-                <div className="flex space-y-2 flex-col">
-                    <input
-                        type="number"
-                        placeholder="Top-Up Amount"
-                        className="input input-bordered w-full"
-                        value={topUpAmount}
-                        onChange={e => setTopUpAmount(e.target.value)}
-                        min="1" // ✅ prevents typing negatives in UI
-                    />
-                    <button
-                        onClick={handleTopUp}
-                        disabled={Number(topUpAmount) <= 0}
-                        className="relative inline-flex items-center justify-center px-5 py-2 overflow-hidden font-medium bg-yellow-400 text-white hover:text-yellow-400 rounded-lg group border-yellow-400 border-[0.1rem] min-w-max disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                        <span className="absolute w-0 h-0 transition-all duration-500 ease-out bg-base-100 rounded-full group-hover:w-56 group-hover:h-56"></span>
-                        <span className="relative">Top-Up</span>
-                    </button>
-                </div>
+                {
+                    <div className="flex space-y-2 flex-col">
+                        <input
+                            type="number"
+                            placeholder="Top-Up Amount"
+                            className="input input-bordered w-full"
+                            value={topUpAmount}
+                            onChange={e => setTopUpAmount(e.target.value)}
+                            min="1" // ✅ prevents typing negatives in UI
+                        />
+                        <button
+                            onClick={handleTopUp}
+                            disabled={Number(topUpAmount) <= 0}
+                            className="relative inline-flex items-center justify-center px-5 py-2 overflow-hidden font-medium bg-yellow-400 text-white hover:text-yellow-400 rounded-lg group border-yellow-400 border-[0.1rem] min-w-max disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                            <span className="absolute w-0 h-0 transition-all duration-500 ease-out bg-base-100 rounded-full group-hover:w-56 group-hover:h-56"></span>
+                            <span className="relative">Top-Up</span>
+                        </button>
+                    </div>
+                }
 
                 {/* Cash-Out */}
                 <div className="flex flex-col space-y-2">

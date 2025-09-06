@@ -9,6 +9,7 @@ import Home from "../pages/Home";
 import Trips from "../pages/Trips";
 import Book from "../pages/Book";
 import Profile from "../components/dashboard/Profile";
+import ManagePromo from "../components/dashboard/ManagePromo";
 
 
 
@@ -50,6 +51,10 @@ export const router = createBrowserRouter([
       {
         path: 'my-profile',
         element: <Profile />
+      },
+      {
+        path: 'manage-promo',
+        element: <ManagePromo />
       },
 
     ]

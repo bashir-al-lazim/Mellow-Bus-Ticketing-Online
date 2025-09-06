@@ -25,20 +25,20 @@ const Dashboard = () => {
             {/* dashboard side bar */}
             <div className="md:w-64 md:min-h-screen bg-base-300 border-r-[0.125rem] border-r-yellow-600">
                 <ul className="menu p-4 ">
+                    <li>
+                        <NavLink to="/dashboard/my-profile">
+                            <FaUser />
+                            Profile</NavLink>
+                    </li>
                     {
                         data.isAdmin && <>
-                            <li>
-                                <NavLink to="/dashboard/admin-profile">
-                                    <FaDatabase />
-                                    Profile</NavLink>
-                            </li>
                             <li>
                                 <NavLink to="/dashboard/manage-trips">
                                     <FaUsers></FaUsers>
                                     Manage Trips</NavLink>
                             </li>
                             <li>
-                                <NavLink to="/dashboard/manage-coupons">
+                                <NavLink to="/dashboard/manage-promo">
                                     <BiSolidCoupon />
                                     Manage Coupons</NavLink>
                             </li>
@@ -46,11 +46,6 @@ const Dashboard = () => {
                     }
                     {
                         !data.isAdmin && <>
-                            <li>
-                                <NavLink to="/dashboard/my-profile">
-                                    <FaUser />
-                                    Profile</NavLink>
-                            </li>
                             <li>
                                 <NavLink to="/dashboard/my-coupons">
                                     <BiSolidCoupon />
