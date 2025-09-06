@@ -169,11 +169,8 @@ app.patch('/promo-codes', async (req, res) => {
                 type = ?, 
                 discount_value = ?, 
                 min_total_seats = ?, 
-                per_user_limit = ?, 
-                global_max_uses = ?, 
                 start_at = ?, 
                 expires_at = ?, 
-                combinable = ?, 
                 active = ? 
              WHERE code = ?`,
             [
@@ -181,11 +178,8 @@ app.patch('/promo-codes', async (req, res) => {
                 type,
                 discount_value,
                 min_total_seats,
-                per_user_limit,
-                global_max_uses,
                 start_at,
                 expires_at,
-                combinable,
                 active,
                 code
             ]
@@ -197,6 +191,50 @@ app.patch('/promo-codes', async (req, res) => {
         res.json({ error: 'Database error' });
     }
 });
+
+app.post('/promo-codes', async (req, res) => {
+    try {
+        const {
+            code,
+            description,
+            type,
+            discount_value,
+            min_total_seats,
+            start_at,
+            expires_at,
+            active
+        } = req.body;
+
+        if (!code || !description || !type || !discount_value) {
+            return res.status(400).json({ message: 'Missing required fields' });
+        }
+
+        const [result] = await pool.promise().query(
+            `INSERT INTO promo_codes 
+        (code, description, type, discount_value, min_total_seats, start_at, expires_at, active) 
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+            [
+                code,
+                description,
+                type,
+                discount_value,
+                min_total_seats || 0,
+                start_at || null,
+                expires_at || null,
+                active || 0
+            ]
+        );
+
+        res.status(201).json({
+            message: 'Promo code created successfully',
+            promo_id: result.insertId
+        });
+    } catch (error) {
+        console.error('Error inserting promo code:', error);
+        res.status(500).json({ message: 'Failed to create promo code' });
+    }
+});
+
 
 
 app.get('/trips', async (req, res) => {

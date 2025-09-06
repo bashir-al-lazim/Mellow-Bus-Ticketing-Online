@@ -43,6 +43,15 @@ const ManagePromo = () => {
             <div>
                 <h1 className="text-4xl font-bold text-center py-8">Manage Coupons</h1>
             </div>
+            <div className="pl-8">
+                <Link
+                    to={`create-promo`}
+                    className="relative inline-flex items-center justify-center px-5 py-2 overflow-hidden font-medium bg-yellow-400 text-white hover:text-yellow-400 rounded-lg group border-yellow-400 border-[0.1rem]"
+                >
+                    <span className="absolute w-0 h-0 transition-all duration-500 ease-out bg-base-100 rounded-full group-hover:w-56 group-hover:h-56"></span>
+                    <span className="relative">Create New</span>
+                </Link>
+            </div>
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 p-6">
                 {promoCodes.map((promo) => (
                     <div
@@ -66,10 +75,6 @@ const ManagePromo = () => {
                             {promo.expires_at
                                 ? new Date(promo.expires_at).toLocaleDateString()
                                 : "No expiry"}
-                        </p>
-                        <p>
-                            <span className="font-semibold">Combinable:</span>{" "}
-                            {promo.combinable ? "Yes" : "No"}
                         </p>
 
                         <div className="flex gap-3 pt-2">

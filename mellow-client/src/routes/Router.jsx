@@ -13,6 +13,7 @@ import ManagePromo from "../components/dashboard/ManagePromo";
 import UpdatePromo from "../components/dashboard/UpdatePromo";
 import ManageTrips from "../components/dashboard/ManageTrips";
 import UpdateTrip from "../components/dashboard/UpdateTrip";
+import CreatePromo from "../components/dashboard/CreatePromo";
 
 
 
@@ -70,6 +71,10 @@ export const router = createBrowserRouter([
       {
         path: 'manage-trips/update-trip/:trip_id',
         element: <UpdateTrip />
+      },
+      {
+        path: 'manage-promo/create-promo',
+        element: <CreatePromo />
       },
 
     ]

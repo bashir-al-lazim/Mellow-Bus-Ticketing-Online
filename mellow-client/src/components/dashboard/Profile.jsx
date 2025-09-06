@@ -65,7 +65,7 @@ const Profile = () => {
 
     return (
         <div className="grid md:w-[90%] bg-base-200 mx-auto rounded-3xl py-10 px-8">
-            <h1 className="text-4xl font-bold text-center">User Profile</h1>
+            <h1 className="text-4xl font-bold text-center">Profile</h1>
             <div className="divider divider-neutral"></div>
             <div className="avatar justify-self-center my-4">
                 <div className="mask mask-squircle w-24 bg-black">
