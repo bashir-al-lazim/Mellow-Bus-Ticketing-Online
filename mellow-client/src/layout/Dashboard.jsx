@@ -12,15 +12,13 @@ const Dashboard = () => {
     const { user } = useContext(AuthContext)
     const axiosSecure = useAxiosSecure()
 
-    // const { data = {} } = useQuery({
-    //     queryKey: ['users', user.email],
-    //     queryFn: async () => {
-    //         const res = await axiosSecure.get(`/users/${user.email}`)
-    //         return res.data
-    //     }
-    // })
-
-    const data = { role:"admin", name:"bashir"}
+    const { data = {} } = useQuery({
+        queryKey: ['users', user.email],
+        queryFn: async () => {
+            const res = await axiosSecure.get(`/accounts/${user.email}`)
+            return res.data
+        }
+    })
 
     return (
         <div className="flex flex-col md:flex-row">
@@ -28,7 +26,7 @@ const Dashboard = () => {
             <div className="md:w-64 md:min-h-screen bg-base-300 border-r-[0.125rem] border-r-yellow-600">
                 <ul className="menu p-4 ">
                     {
-                        data.role === 'admin' && <>
+                        data.isAdmin && <>
                             <li>
                                 <NavLink to="/dashboard/admin-profile">
                                     <FaDatabase />
@@ -47,21 +45,21 @@ const Dashboard = () => {
                         </>
                     }
                     {
-                        data.role === 'user' && <>
+                        !data.isAdmin && <>
                             <li>
-                                <NavLink to="/dashboard/user-profile">
+                                <NavLink to="/dashboard/my-profile">
                                     <FaUser />
                                     Profile</NavLink>
                             </li>
                             <li>
                                 <NavLink to="/dashboard/my-coupons">
-                                    <FaCartPlus />
-                                    Coupons</NavLink>
+                                    <BiSolidCoupon />
+                                    My Coupons</NavLink>
                             </li>
                             <li>
                                 <NavLink to="/dashboard/my-bookings">
                                     <FaList></FaList>
-                                    Bookings</NavLink>
+                                    My Bookings</NavLink>
                             </li>
                         </>
                     }
@@ -71,6 +69,11 @@ const Dashboard = () => {
                         <NavLink to="/">
                             <FaHome></FaHome>
                             Home</NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/trips">
+                            <FaHome></FaHome>
+                            Trips</NavLink>
                     </li>
                 </ul>
             </div>

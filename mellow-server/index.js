@@ -80,6 +80,23 @@ app.get('/accounts/:email', async (req, res) => {
 });
 
 
+app.patch('/accounts/update-balance/:email', async (req, res) => {
+    const { email } = req.params;
+    const { ewallet_balance } = req.body;
+
+    try {
+        await pool.promise().query(
+            'update accounts set ewallet_balance = ? where email = ?',
+            [ewallet_balance, email]
+        );
+        res.send({ ewallet_balance });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send({ message: 'Database error' });
+    }
+});
+
+
 app.get('/trips', async (req, res) => {
     const { status, from, to, date, busType } = req.query;
     try {

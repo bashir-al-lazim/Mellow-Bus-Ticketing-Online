@@ -8,6 +8,7 @@ import PrivateRoute from "./PrivateRoute";
 import Home from "../pages/Home";
 import Trips from "../pages/Trips";
 import Book from "../pages/Book";
+import Profile from "../components/dashboard/Profile";
 
 
 
@@ -45,6 +46,10 @@ export const router = createBrowserRouter([
       {
         index: true,
         element: <Greet />
+      },
+      {
+        path: 'my-profile',
+        element: <Profile />
       },
 
     ]
